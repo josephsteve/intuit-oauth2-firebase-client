@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class IntuitApiService {
@@ -15,28 +16,29 @@ export class IntuitApiService {
     return this.http.get('https://us-central1-intuit-oauth2-api.cloudfunctions.net/api/getCompanyInfo');
   }
 
-  public getCustomer() {
-    const url = 'https://sandbox-quickbooks.api.intuit.com/v3/company/193514815890974/customer/2';
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.access_token}`
-    });
-    const httpOptions = {
-      headers: headers
-    };
-    console.log('httpOptions', '=>', httpOptions);
-    return this.http.get(url, httpOptions);
+  public getCustomer(customerId) {
+    return this.http.get(`https://us-central1-intuit-oauth2-api.cloudfunctions.net/api/getCustomer?id=${customerId}`);
   }
 
   public retrieveToken() {
     return this.http.get('https://us-central1-intuit-oauth2-api.cloudfunctions.net/api/retrieveToken');
   }
 
-  public getToken() {
-    this.http.get('https://us-central1-intuit-oauth2-api.cloudfunctions.net/api/retrieveToken')
-      .subscribe((response: Token) => {
-        console.log('token', '=>', response);
-        this.access_token = response.access_token;
-      });
+  public getToken(): Observable<string> {
+    return new Observable<string>(observer => {
+      this.http.get('https://us-central1-intuit-oauth2-api.cloudfunctions.net/api/retrieveToken')
+        .subscribe((response: Token) => {
+          console.log('token', '=>', response);
+          if (response && response.access_token) {
+            this.access_token = response.access_token;
+            observer.next(this.access_token);
+          } else {
+            observer.error('Token is empty. You need to connect to QBO first!');
+          }
+        }, error => {
+          observer.error(error);
+        });
+    });
   }
 }
 

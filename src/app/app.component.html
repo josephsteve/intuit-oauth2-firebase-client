@@ -1,9 +1,116 @@
-<div>
-  <button mat-raised-button (click)="onConnectQBOClicked()">Connect to QBO</button>
-  <button mat-raised-button (click)="getToken()">Get Token</button>
-  <button mat-raised-button (click)="getCustomer()">Get Customer</button>
-  <label></label>
+<div class="container">
+  <div class="py-3 text-center">
+    <img class="d-block mx-auto mb-4" src="../assets/images/logo-qbo.png" [width]="100" [height]="100">
+    <h2>Intuit QBO Connect Sample Form</h2>
+    <p class="lead">
+      Below is an example form to do CRUD operations with Intuit's QuickBooks Sandbox Environment.  You must have an account to the Sandbox - if you need one, email me.
+    </p>
+    <div class="row my-3 justify-content-center">
+      <div class="col">
+        <button mat-raised-button class="mx-3" (click)="onConnectQBOClicked()" color="primary">Step 1 - Connect to QBO</button>
+        <button mat-raised-button class="mx-3" (click)="getToken()" color="accent">Step 2 - Get Token</button>
+      </div>
+    </div>
+    <div *ngIf="error" class="row my-3 justify-content-center">
+      <div class="col col-5 alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    </div>
+    <div *ngIf="token" class="row my-3 justify-content-center">
+      <div class="col col-6 alert-success" role="alert">
+        Token is valid! You can now "Get Customer"
+      </div>
+    </div>
+    <div class="row my-4 justify-content-center">
+      <div class="col">
+        <mat-form-field>
+          <input matInput placeholder="Enter Customer ID" name="customerId" [(ngModel)]="customerId">
+        </mat-form-field>
+        <button mat-stroked-button class="mx-3" (click)="getCustomer()" color="primary">Get Customer</button>
+      </div>
+    </div>
+    <form class="form-group" [formGroup]="formCustomer">
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Company Name" formControlName="CompanyName">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Display Name" formControlName="DisplayName">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Given Name" formControlName="GivenName">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Family Name" formControlName="FamilyName">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Address Line" formControlName="Line1">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="City" formControlName="City">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="State/Province" formControlName="CountrySubDivisionCode">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="PostalCode" formControlName="PostalCode">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Primary Phone" formControlName="PrimaryPhone">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-6">
+          <mat-form-field>
+            <input matInput placeholder="Primary Email" formControlName="PrimaryEmailAddr">
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
-
 <router-outlet></router-outlet>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">© 2017-2018 Yuoj Services</p>
+  <ul class="list-inline">
+    <li class="list-inline-item"><a href="#">Privacy</a></li>
+    <li class="list-inline-item"><a href="#">Terms</a></li>
+    <li class="list-inline-item"><a href="#">Support</a></li>
+  </ul>
+</footer>
